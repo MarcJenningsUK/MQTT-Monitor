@@ -2,6 +2,10 @@ import paho.mqtt.client as mqtt
 from PIL import Image, ImageDraw, ImageFont
 from subprocess import call
 
+call(["cp", "/home/pi/splash.jpg", "/home/pi/kitten.jpg"])
+call(["cp", "/home/pi/splash.jpg", "/home/pi/kitten2.jpg"])
+call(["cp", "/home/pi/splash.jpg", "/home/pi/kitten3.jpg"])
+
 call(["/bin/bash", "/home/pi/displaySplashImg.sh"])
 
 lrtemp = 0
@@ -11,7 +15,6 @@ gahumid = 0;
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
-
     client.subscribe("ESP8266/#")
 
 # The callback for when a PUBLISH message is received from the server.
@@ -38,9 +41,9 @@ def on_message(client, userdata, msg):
     draw.text((20,300), str(gatemp), font=font, fill=(255,0,0))
     draw.text((20,350), 'Garage Humidity', font=font, fill=(0,0,255))
     draw.text((20,400), str(gahumid), font=font, fill=(255,0,0))
-    image.save("status.jpg")
-    if(msg.topic == "ESP8266/garage/humidity") or (msg.topic == "ESP8266/lounge/humidity"):
-        call(["/bin/bash", "/home/pi/displayImg.sh"])
+    image.save("kitten.jpg")
+    image.save("kitten2.jpg")
+    image.save("kitten3.jpg")
 
 client = mqtt.Client()
 client.on_connect = on_connect
