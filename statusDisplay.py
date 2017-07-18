@@ -2,12 +2,19 @@ import paho.mqtt.client as mqtt
 from PIL import Image, ImageDraw, ImageFont
 from subprocess import call
 
+# fbi requires three images to work with in order to force no-cache of the files.  
+# Let's initialise three images...
 call(["cp", "/home/pi/splash.jpg", "/home/pi/output.jpg"])
 call(["cp", "/home/pi/splash.jpg", "/home/pi/output.jpg"])
 call(["cp", "/home/pi/splash.jpg", "/home/pi/output.jpg"])
 
+# fbi displays files from the filelist file, which is set up by default to use the images we initialised above.  
+# It will rotate through the images every 5 seconds.
+# It is possible to add three referencess to the same file, but I wanted to try to minimise the chances of trying to write to an open file.
+# We launch it from a shell script because I'm too inexperience to be able to reliably call it from a python script as root and have it function
 call(["/bin/bash", "/home/pi/displayImg.sh"])
 
+# set up some global vars to hold historical data
 lrtemp = 0
 lrhumid = 0
 gatemp = 0
@@ -30,6 +37,7 @@ def on_message(client, userdata, msg):
     if(msg.topic == "ESP8266/garage/humidity"):
         gahumid = msg.payload
 
+    # draw the values out to an image variable
     image = Image.new('RGB',(800,480))
     draw = ImageDraw.Draw(image)
     font = ImageFont.truetype("SegoeWP.ttf",48)
@@ -41,14 +49,16 @@ def on_message(client, userdata, msg):
     draw.text((20,300), str(gatemp), font=font, fill=(255,0,0))
     draw.text((20,350), 'Garage Humidity', font=font, fill=(0,0,255))
     draw.text((20,400), str(gahumid), font=font, fill=(255,0,0))
+    # and then save the image out to the three files.
     image.save("output.jpg")
     image.save("output.jpg")
     image.save("output.jpg")
 
+# Set up the connection and events.
 client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
-
 client.connect("mqtt.fqdn", 1883, 60)
 
+# loop forever (duh!)
 client.loop_forever()
