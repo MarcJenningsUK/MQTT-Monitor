@@ -22,7 +22,8 @@ argument becomes effective and images are reloaded from disk each time.
 I know there's a better way, and certainly a more secure one, but since my device is running in my home without an attached keyboard I just set the Pi to boot directly to the console logged in as the default user (pi).  In ```/home/pi/.bashrc``` I added a call to the Python script.  That's it.
 
 ## What's next?
-Move the written image files out to a ram disk.  I don't liuke constantly wiriting to the SD card - they have a limited life and I don't want to bugger it up.
+Move the written image files out to a ram disk.  I don't liuke constantly wiriting to the SD card - they have a limited life and I don't want to bugger it up if I don't have to.
+
 I am looking at options to accept touch input from the display (I'm using a Pimoroni [HyperPixel](https://shop.pimoroni.com/products/hyperpixel) display which includes touch support.  When I get some time I'll try to hook into the event for that to control what gets written to the files.  That *should* let me allow the user (me) to cycle through different information via touch.
 
 ```
