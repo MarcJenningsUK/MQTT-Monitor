@@ -37,7 +37,7 @@ def on_message(client, userdata, msg):
     if(msg.topic == "ESP8266/garage/humidity"):
         gahumid = msg.payload
 
-    # draw the values out to an image variable
+    # draw the values out to an image variable.  If your display is not 800*480, adjust the initialisation here.  It'll still work with these defaults but fbi will auto-zoom to be able to display the output.
     image = Image.new('RGB',(800,480))
     draw = ImageDraw.Draw(image)
     font = ImageFont.truetype("SegoeWP.ttf",48)
