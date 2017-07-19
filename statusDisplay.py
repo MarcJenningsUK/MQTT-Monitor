@@ -2,9 +2,9 @@ import paho.mqtt.client as mqtt
 from PIL import Image, ImageDraw, ImageFont
 from subprocess import call
 
-call(["cp", "/home/pi/splash.jpg", "/home/pi/output.jpg"])
-call(["cp", "/home/pi/splash.jpg", "/home/pi/output.jpg"])
-call(["cp", "/home/pi/splash.jpg", "/home/pi/output.jpg"])
+call(["cp", "/home/pi/splash.jpg", "/mnt/ramdisk/status1.jpg"])
+call(["cp", "/home/pi/splash.jpg", "/mnt/ramdisk/status2.jpg"])
+call(["cp", "/home/pi/splash.jpg", "/mnt/ramdisk/status3.jpg"])
 
 call(["/bin/bash", "/home/pi/displayImg.sh"])
 
@@ -41,9 +41,9 @@ def on_message(client, userdata, msg):
     draw.text((20,300), str(gatemp), font=font, fill=(255,0,0))
     draw.text((20,350), 'Garage Humidity', font=font, fill=(0,0,255))
     draw.text((20,400), str(gahumid), font=font, fill=(255,0,0))
-    image.save("output.jpg")
-    image.save("output.jpg")
-    image.save("output.jpg")
+    image.save("/mnt/ramdisk/status1.jpg")
+    image.save("/mnt/ramdisk/status2.jpg")
+    image.save("/mnt/ramdisk/status3.jpg")
 
 client = mqtt.Client()
 client.on_connect = on_connect
